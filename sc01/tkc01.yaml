@@ -1,0 +1,29 @@
+apiVersion: run.tanzu.vmware.com/v1alpha1    
+kind: TanzuKubernetesCluster                 
+metadata:
+  name: tkc01                              
+  namespace: ns1                    
+spec:
+  distribution:
+    fullVersion: null
+    version: v1.21.2---vmware.1-tkg.1.ee25d55    
+  topology:
+    controlPlane:
+      count: 1                                                        
+      class: best-effort-large                
+      storageClass: vc01cl01-t0compute  #Specific storage class for control plane       
+    workers:
+      count: 3                                                     
+      class: best-effort-large                       
+      storageClass: vc01cl01-t0compute   #Specific storage class for workers     
+  settings:
+    network:
+      cni:
+        name: calico
+      services:
+        cidrBlocks: ["198.51.100.0/12"]        #Cannot overlap with Supervisor Cluster
+      pods:
+        cidrBlocks: ["192.0.2.0/16"]           #Cannot overlap with Supervisor Cluster
+    storage:
+#      classes: ["gold", "silver"]              #Named PVC storage classes
+      defaultClass: vc01cl01-t0compute    #Default PVC storage class

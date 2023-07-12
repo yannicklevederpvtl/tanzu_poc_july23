@@ -1,0 +1,52 @@
+Connecter supervisor cluster to TMC
+
+Administration > Register a management cluster
+
+Copy the link to the yaml tmcregister.yaml
+
+Apply in the supervisor cluster
+
+
+
+ArgoCD
+
+Deploy serviceaccount in the supervisor cluster
+  Replace ns1 by your namespace in serviceaccountargocd.yaml
+  kubectl apply -f serviceaccountargocd.yaml
+
+Get the token from the service account (replace ns1 by your namespace)
+  kubectl get serviceaccounts argocd-robot -n ns1 -o json | jq -r '.secrets[] .name' | xargs -I {} sh -c "kubectl get secret -o json {} | jq -r '.data .token'" | base64 -d
+
+In your "Service Cluster" deploy argocd
+
+  Replace the token (the one got from the supervisor cluster), the url of the supervisor cluster and the supervisor namespace in the secret.yaml
+
+  kubectl create namespace argocd
+  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+  Patch the admin password for 'password'
+
+  kubectl -n argocd patch secret argocd-secret \
+    -p '{"stringData": {
+      "admin.password": "$2a$10$rRyBsGSHK6.uc8fntPwVIuLVHgsAhAX7TcdrqW/RADU0uh7CaChLa",
+      "admin.passwordMtime": "'$(date +%FT%T%Z)'"
+    }}'
+
+To contect to ArgoCD (User: admin, Password: password)
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+http://localhost:8080
+
+To declare the supervisor cluster in ArgoCD
+  replace the values in argocd-cm.yaml with the url of your supervisor cluster
+  and 
+  kubectl apply -f argocd-cm.yaml
+
+To create an app linked to a repo
+  replace the values in application.yaml with the right repo and the right supervisor cluster and namespace
+  and  
+  kubectl apply -f application.yaml
+  
+
+
+
+

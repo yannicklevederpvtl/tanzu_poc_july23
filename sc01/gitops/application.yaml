@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tanzu-cluster-gitops
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    # The repository that your TKC manfiests are stored in, i'm using my GitOps repo here
+    repoURL: https://github.com/yannicklevederpvtl/tanzu-cluster-gitops.git
+    # What version do you want ArgoCD to deploy from the repo? HEAD is the latest
+    targetRevision: HEAD
+
+    path: manifests/tanzu-clusters
+    # What type of folder is this, and do we want to recurse into subfolders?
+    # ArgoCD supports many types, including Helm, jsonnet, bare YAML, and more.
+    # In this example we're using bare YAML to keep it simple, but my GitOps repo above has
+    # many more complex examples and uses ArgoCD's app-of-apps pattern if you want them.
+    directory:
+      recurse: true
+  destination:
+    # The cluster to deploy the manifests to - this is the Supervisor cluster
+    server: 'https://vc01cl01-wcp.h2o-4-9763.h2o.vmware.com:6443'
+    # The Namespace to deploy the manifests to - this is the Supervisor cluster Namespace
+    namespace: ns3
+  syncPolicy:
+    # Allow ArgoCD to automatically clean up leftovers if the manifests are removed
+    # and self-heal any issues that arise
+    automated:
+      prune: true
+      selfHeal: true
