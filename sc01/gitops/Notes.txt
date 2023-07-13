@@ -1,20 +1,20 @@
-ArgoCD
+Create a serviceaccount in the supervisor cluster and your vsphere namespace
+Replace yourvspherenamespace by your namespace in serviceaccountargocd.yaml
 
-Deploy serviceaccount in the supervisor cluster and your vsphere namespace
-  Replace yourvspherenamespace by your namespace in serviceaccountargocd.yaml
   kubectl apply -f serviceaccountargocd.yaml
 
 Get the token from the service account (replace yourvspherenamespace by your namespace)
+
   kubectl get serviceaccounts argocd-robot -n yourvspherenamespace -o json | jq -r '.secrets[] .name' | xargs -I {} sh -c "kubectl get secret -o json {} | jq -r '.data .token'" | base64 -d
 
-In your "Service Cluster" deploy argocd
+In your "Service Cluster" deploy ArgoCD
 
-  Replace the token (the one got from the supervisor cluster), the url of the supervisor cluster and the supervisor namespace in the secret.yaml
+Replace the token (the one got from the supervisor cluster), the url of the supervisor cluster and the supervisor namespace in "secret.yaml"
 
   kubectl create namespace argocd
   kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-  Patch the admin password for 'password'
+Patch the admin password for 'password'
 
   kubectl -n argocd patch secret argocd-secret \
     -p '{"stringData": {
@@ -22,18 +22,25 @@ In your "Service Cluster" deploy argocd
       "admin.passwordMtime": "'$(date +%FT%T%Z)'"
     }}'
 
-To contect to ArgoCD (User: admin, Password: password)
-kubectl port-forward svc/argocd-server -n argocd 8080:443
-http://localhost:8080
+Connect to ArgoCD (User: admin, Password: password)
+
+  kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+  In your browser
+  http://localhost:8080
 
 To declare the supervisor cluster in ArgoCD
-  replace the values in argocd-cm.yaml with the url of your supervisor cluster
-  and 
+Replace the values in argocd-cm.yaml with your supervisor cluster url
+
   kubectl apply -f argocd-cm.yaml
 
-To create an app linked to a repo
-  replace the values in application.yaml with the right repo and the right supervisor cluster and namespace
-  and  
+Create the secret of your supervisor cluster
+
+  kubectl apply -f secret.yaml
+
+To create an app sync with a git repo
+Replace the values in application.yaml with your repo and your supervisor cluster url and namespace
+
   kubectl apply -f application.yaml
   
 
