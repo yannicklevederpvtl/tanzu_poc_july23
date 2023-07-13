@@ -12,3 +12,7 @@ https://developer.vmware.com/samples/7629/tanzu-mission-control-api---postman-co
 
 Tanzu Mission Control Terraform Provider
 https://registry.terraform.io/providers/vmware/tanzu-mission-control/latest/docs
+
+Gitlab 13.9 Integration
+docker run -it --rm -p 4000:4000 registry.gitlab.com/gitlab-org/gitlab-docs:13.9
+http://0.0.0.0:4000/13.9/runner/install/kubernetes.html
