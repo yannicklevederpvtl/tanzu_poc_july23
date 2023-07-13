@@ -1,21 +1,11 @@
-Connecter supervisor cluster to TMC
-
-Administration > Register a management cluster
-
-Copy the link to the yaml tmcregister.yaml
-
-Apply in the supervisor cluster
-
-
-
 ArgoCD
 
-Deploy serviceaccount in the supervisor cluster
-  Replace ns1 by your namespace in serviceaccountargocd.yaml
+Deploy serviceaccount in the supervisor cluster and your vsphere namespace
+  Replace yourvspherenamespace by your namespace in serviceaccountargocd.yaml
   kubectl apply -f serviceaccountargocd.yaml
 
-Get the token from the service account (replace ns1 by your namespace)
-  kubectl get serviceaccounts argocd-robot -n ns1 -o json | jq -r '.secrets[] .name' | xargs -I {} sh -c "kubectl get secret -o json {} | jq -r '.data .token'" | base64 -d
+Get the token from the service account (replace yourvspherenamespace by your namespace)
+  kubectl get serviceaccounts argocd-robot -n yourvspherenamespace -o json | jq -r '.secrets[] .name' | xargs -I {} sh -c "kubectl get secret -o json {} | jq -r '.data .token'" | base64 -d
 
 In your "Service Cluster" deploy argocd
 

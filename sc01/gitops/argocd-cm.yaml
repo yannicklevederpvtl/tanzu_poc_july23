@@ -19,7 +19,7 @@ data:
       kinds:
       - PodTemplate
       clusters:
-      - https://vc01cl01-wcp.h2o-4-9763.h2o.vmware.com:6443
+      - https://yoursupervisorcluster.vmware.com:6443
 
   # By default all resource group/kinds are included. The resource.inclusions setting allows customizing
   # list of included group/kinds.
@@ -38,7 +38,7 @@ data:
       - TanzuKubernetesRelease
       - TkgServiceConfiguration
       clusters:
-      - https://vc01cl01-wcp.h2o-4-9763.h2o.vmware.com:6443
+      - https://yoursupervisorcluster.vmware.com:6443
     - apiGroups:
       - "cluster.x-k8s.io"
       kinds:
@@ -48,13 +48,13 @@ data:
       - MachineHealthCheck
       - MachineSet
       clusters:
-      - https://vc01cl01-wcp.h2o-4-9763.h2o.vmware.com:6443
+      - https://yoursupervisorcluster.vmware.com:6443
     - apiGroups:
       - "vmoperator.vmware.com"
       kinds: 
       - "*"
       clusters:
-      - https://vc01cl01-wcp.h2o-4-9763.h2o.vmware.com:6443
+      - https://yoursupervisorcluster.vmware.com:6443
     - apiGroups:
       - "controlplane.cluster.x-k8s.io"
       - "bootstrap.cluster.x-k8s.io"
@@ -63,18 +63,18 @@ data:
       - KubeadmConfig
       - KubeadmConfigTemplate
       clusters:
-      - https://vc01cl01-wcp.h2o-4-9763.h2o.vmware.com:6443
+      - https://yoursupervisorcluster.vmware.com:6443
     - apiGroups:
       - "infrastructure.cluster.vmware.com"
       kinds: 
       - "*"
       clusters:
-      - https://vc01cl01-wcp.h2o-4-9763.h2o.vmware.com:6443
+      - https://yoursupervisorcluster.vmware.com:6443
       - apiGroups:
       - "rbac.authorization.k8s.io"
       kinds: 
       - Role
       - RoleBinding
       clusters:
-      - https://vc01cl01-wcp.h2o-4-9763.h2o.vmware.com:6443
+      - https://yoursupervisorcluster.vmware.com:6443
 

@@ -24,9 +24,9 @@ spec:
       recurse: true
   destination:
     # The cluster to deploy the manifests to - this is the Supervisor cluster
-    server: 'https://vc01cl01-wcp.h2o-4-9763.h2o.vmware.com:6443'
+    server: 'https://yoursupervisorcluster.vmware.com:6443'
     # The Namespace to deploy the manifests to - this is the Supervisor cluster Namespace
-    namespace: ns3
+    namespace: yourvspherenamespace
   syncPolicy:
     # Allow ArgoCD to automatically clean up leftovers if the manifests are removed
     # and self-heal any issues that arise
