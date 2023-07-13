@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-worldv1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-worldv1
+      tier: backend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: hello-worldv1
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: hello-worldv1
+          image: "gcr.io/google-samples/hello-app:1.0" 
+          ports:
+            - name: http
+              containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: helloworld-v1
+spec:
+  selector:
+    app: hello-worldv1
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-worldv2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-worldv2
+      tier: backend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: hello-worldv2
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: hello-worldv2
+          image: "gcr.io/google-samples/hello-app:2.0" 
+          ports:
+            - name: http
+              containerPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: helloworld-v2
+spec:
+  selector:
+    app: hello-worldv2
+    tier: backend
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: http
+---
+apiVersion: networking.k8s.io/v1beta1  
+kind: Ingress
+metadata:
+  name: hello-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /v1
+        backend:
+          serviceName: helloworld-v1
+          servicePort: 8080
+      - path: /v2
+        backend:
+          serviceName: helloworld-v2
+          servicePort: 8080

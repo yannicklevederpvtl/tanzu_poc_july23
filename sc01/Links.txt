@@ -1,0 +1,14 @@
+Tanzu Mission Control CLI
+https://docs.vmware.com/en/VMware-Tanzu-Mission-Control/services/tanzu-cli-ref-tmc/install-cli.html
+
+Example of Kubernetes cluster templates
+API v1alpha1
+https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-B1034373-8C38-4FE2-9517-345BF7271A1E.html
+API v1alpha2
+https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-B2807BCD-0CE1-4C3A-9C0E-2B78F5DA0E90.html
+
+Tanzu Mission Control API
+https://developer.vmware.com/samples/7629/tanzu-mission-control-api---postman-collection
+
+Tanzu Mission Control Terraform Provider
+https://registry.terraform.io/providers/vmware/tanzu-mission-control/latest/docs
