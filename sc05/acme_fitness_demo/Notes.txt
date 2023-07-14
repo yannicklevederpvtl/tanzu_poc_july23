@@ -1,0 +1,26 @@
+After onboarding your two clusters in TSM, connect to your first cluster to deploy the app secrets, apps and the ingress gateway
+
+In the "acme" namespace previously created and enabled with Istio 
+
+    kubectl apply -f acme_fitness_demo/kubernetes-manifests/secrets.yaml -n acme
+
+Edit the acme_fitness_demo/kubernetes-manifests/acme_fitness_cluster1.yaml at the variable CATALOG_HOST to use the domain that you configured in your gns
+
+    kubectl apply -f acme_fitness_demo/kubernetes-manifests/acme_fitness_cluster1.yaml -n acme
+
+    kubectl apply -f acme_fitness_demo/istio-manifests/gateway.yaml -n acme
+
+Connect to your second cluster to deploy the app secrets, catalog app 
+
+In the "acme" namespace previously created and enabled with Istio 
+
+    kubectl apply -f acme_fitness_demo/kubernetes-manifests/secrets.yaml -n acme
+
+    kubectl apply -f acme_fitness_demo/kubernetes-manifests/acme_fitness_cluster2.yaml -n acme
+
+Now you can create you gns and map the two clusters and acme namespace
+
+To generate traffic you can deploy a locus deployment in your first cluster
+
+    kubectl apply -f acme_fitness_demo/traffic-generator/traffic-generator/loadgen.yaml -n acme
+
