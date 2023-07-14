@@ -1,0 +1,32 @@
+Demo of Continuous Devivery with Kustomization
+
+In the Tanzu Mission Control console click Policies then Assignments.
+At your cluster level, click Create Security Policy
+Next select Baseline as the security template and provide a descriptive name for the policy.
+Scroll down and toggle Disable native pod security policies and leave Enforcement action set to deny so there is still a security policy in place
+Click Create policy
+
+On the Add-On tab then click Git repositories 
+Click add Git repository and create a repo named "fluxcd-poc" with a URL of https://github.com/yannicklevederpvtl/tmc-flux-poc
+
+Ensure to name the repository exactly as spelled above or your packages may not deploy
+Enter "main" into the branch
+Click Save
+
+Next click kustomizations on the left, then click Add
+For name enter "tanzu-service-accounts", select the "fluxcd-poc" repository you just added, and enter "pre-reqs" as the folder path. If you would like objects created by this repository to be removed when the kustomization is removed, toggle the prune option.
+
+Customize the "grafana/grafana-data-values.yaml" "promotheus/promotheus-data-values.yaml" with your own dns values and storageclass name
+
+Wait a few moments and verify the first kustomization completed successfully then click Add again
+
+For name enter "tanzu-packages", select the "fluxcd-poc" repository, and enter "flux-config" as the folder path, then toggle the prune option if you would like objects created by this repository to be removed when the kustomization is removed
+
+You can verify the status of the Tanzu packages by clicking on Installed Tanzu Packages
+
+To get the IP of the Envoy Ingress (used to setup your "grafana.yourdomain.com" "promotheus.yourdomain.com" dns )
+
+ kubectl get svc -n tanzu-system-dashboards
+
+
+
